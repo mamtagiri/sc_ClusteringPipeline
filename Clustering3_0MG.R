@@ -2,15 +2,15 @@
 #     define functions          #
 #################################
 ##!/bin/Rscript
-args = commandArgs(trailingOnly=TRUE)
+arg = commandArgs(trailingOnly=TRUE)
 #install.packages("Seurat","dplyr","cowplot")
 
-args = commandArgs(trailingOnly=TRUE)
-if (length(args)==0) {
+
+if (length(arg)==0) {
   stop("Provide atleast the PC to use for clustering  ", call.=FALSE)
-} else if (length(args)==1) {
+} else if (length(arg)==1) {
   # default output file
-  args[2] = 0.6
+  arg[2] = 0.6
 }
 library(Seurat)
 library(dplyr)
