@@ -4,6 +4,14 @@
 ##!/bin/Rscript
 
 #install.packages("Seurat","dplyr","cowplot")
+
+args = commandArgs(trailingOnly=TRUE)
+if (length(args)==0) {
+  stop("Provide atleast the PC to use for clustering  ", call.=FALSE)
+} else if (length(args)==1) {
+  # default output file
+  args[2] = 0.6
+}
 library(Seurat)
 library(dplyr)
 library(cowplot)
@@ -11,14 +19,14 @@ library(cowplot)
 
 #The integrate function. Change the dimensions as per need####
 integrate<-function(data){
-  immune.anchors <- FindIntegrationAnchors(object.list = data, dims = 1:30)
-  immune.integrated <- IntegrateData(anchorset = immune.anchors, dims = 1:30)
+  immune.anchors <- FindIntegrationAnchors(object.list = data, dims = 1:arg[1])
+  immune.integrated <- IntegrateData(anchorset = immune.anchors, dims = 1:arg[1])
   DefaultAssay(immune.integrated) <- "integrated"
   immune.integrated <- ScaleData(immune.integrated, verbose = FALSE)
-  immune.integrated <- RunPCA(immune.integrated, npcs = 30, verbose = FALSE)
-  immune.integrated <- RunUMAP(immune.integrated, reduction = "pca", dims = 1:30)
-  immune.integrated <- FindNeighbors(immune.integrated, reduction = "pca", dims = 1:20)
-  immune.integrated <- FindClusters(immune.integrated, resolution = 0.5)
+  immune.integrated <- RunPCA(immune.integrated, npcs = arg[1], verbose = FALSE)
+  immune.integrated <- RunUMAP(immune.integrated, reduction = "pca", dims = 1:arg[1])
+  immune.integrated <- FindNeighbors(immune.integrated, reduction = "pca", dims = 1:arg[1])
+  immune.integrated <- FindClusters(immune.integrated, resolution = arg[2])
   return(immune.integrated)
 }
 
