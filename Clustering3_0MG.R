@@ -2,7 +2,7 @@
 #     define functions          #
 #################################
 ##!/bin/Rscript
-
+args = commandArgs(trailingOnly=TRUE)
 #install.packages("Seurat","dplyr","cowplot")
 
 args = commandArgs(trailingOnly=TRUE)
