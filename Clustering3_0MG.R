@@ -33,11 +33,12 @@ integrate<-function(data){
 #Creating seurat objects from raw files. Change min # of RNA feature ###
 
 seurat_object <-function(file_name,p.dir,s,g) {
-  object<-Read10X(data.dir = paste0(p.dir,"/",file_name))
-  colnames(x = object) <- paste(s, colnames(x = object), sep = '_')
-  object <- CreateSeuratObject(object, project = "My_project", min.cells = 5)
+  object1<-Read10X(data.dir = paste0(p.dir,"/",file_name))
+  colnames(x = object1) <- paste(s, colnames(x = object1), sep = '_')
+  object <- CreateSeuratObject(object1, project = "My_project", min.cells = 5)
   object@meta.data$object <- file_name
-  object <- subset(object, subset = nFeature_RNA > 500)
+  object[["percent.mt"]] <- PercentageFeatureSet(object, pattern = "^mt-")
+  object <- subset(object, subset = nFeature_RNA > 500 & nCount_RNA > 300)
   object <- NormalizeData(object)
   object <- ScaleData(object, display.progress = F)
   object <- FindVariableFeatures(object,selection.method = "vst", nfeatures = 2000)
