@@ -11,3 +11,5 @@ You can create multiple plts by uncommenting the functions for plotting
 
 More features for the pipline will be added soon.
 
+Also, check out https://github.com/mamtagiri/UsefulRscripts for any scripts that might be helpful.
+
